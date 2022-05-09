@@ -26,6 +26,8 @@ class MemberRepositoryV0Test {
      *
      * @Data 어노테이션이 toString() 을 적절히 오버라이딩 해서 보여주기 때문에 실행 결과 member 에 실제 데이터가 보인다.
      *
+     * + 회원 수정 테스트
+     *
      * @throws SQLException
      */
     @Test
@@ -33,8 +35,10 @@ class MemberRepositoryV0Test {
 
         Member member = new Member("memberV0", 10000);
 
+        // 등록
         repository.save(member);
 
+        // 조회
         Member findMember = repository.findById(member.getMemberId());
 
         log.info("findMember = {}", findMember);
@@ -42,5 +46,12 @@ class MemberRepositoryV0Test {
         log.info("member equals findMember : {}", member.equals(findMember));
 
         assertThat(findMember).isEqualTo(member);
+
+        // 수정
+        repository.update(member.getMemberId(), 20000);
+
+        Member updatedMember = repository.findById(member.getMemberId());
+
+        assertThat(updatedMember.getMoney()).isEqualTo(20000);
     }
 }
