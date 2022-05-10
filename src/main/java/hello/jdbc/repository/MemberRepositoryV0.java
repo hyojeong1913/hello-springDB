@@ -150,6 +150,42 @@ public class MemberRepositoryV0 {
     }
 
     /**
+     * 회원 삭제
+     *
+     * @param memberId
+     * @throws SQLException
+     */
+    public void delete(String memberId) throws SQLException {
+
+        String sql = "DELETE FROM member WHERE memberId = ?";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, memberId);
+
+            // executeUpdate() 는 쿼리를 실행하고 영향받은 row 수를 반환
+            int resultSize = pstmt.executeUpdate();
+
+            log.info("resultSize = {}", resultSize);
+
+        } catch (SQLException e) {
+
+            log.error("DB Error = {}", e);
+
+            throw e;
+
+        } finally {
+
+            close(conn, pstmt, null);
+        }
+    }
+
+    /**
      * DBConnectionUtil 를 통해서 데이터베이스 connection 획득
      *
      * @return
