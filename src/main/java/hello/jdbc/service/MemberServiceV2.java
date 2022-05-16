@@ -67,12 +67,12 @@ public class MemberServiceV2 {
         Member toMember = memberRepository.findById(conn, toId);
 
         // fromId 회원의 돈을 money 만큼 감소
-        memberRepository.update(fromId, fromMember.getMoney() - money);
+        memberRepository.update(conn, fromId, fromMember.getMoney() - money);
 
         validation(toMember);
 
         // toId 회원의 돈을 money 만큼 증가
-        memberRepository.update(toId, toMember.getMoney() + money);
+        memberRepository.update(conn, toId, toMember.getMoney() + money);
     }
 
     /**
